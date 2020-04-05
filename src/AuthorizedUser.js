@@ -12,8 +12,8 @@ const GITHUB_AUTH_MUTATION = gql(`
 `);
 
 const Me = ({logout, requestCode, signingIn}) =>
-  <Query query={ROOT_QUERY}>
-    {({ loading, data }) => data.me ?
+  <Query query={ROOT_QUERY} fetchPolicy='cache-and-network'>
+    {({ loading, data }) => data?.me ?
       <CurrentUser {...data.me} logout={logout} /> :
       loading ?
         <p>loading...</p> :
@@ -50,7 +50,7 @@ class AuthorizedUser extends Component {
   }
 
   requestCode() {
-    const clientID = process.env.GITHUB_CLIENT_ID;
+    const clientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
     window.location = `https://github.com/login/oauth/authorize?client_id=${clientID}&scope=user`;
   }
 
